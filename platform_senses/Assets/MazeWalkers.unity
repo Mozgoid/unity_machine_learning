@@ -150,13 +150,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 207789776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1336c663a88dbd14489b339c8e7cd613, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e0783098e018ae4c8aec460e4fa76e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   botPrefab: {fileID: 1614715498560446, guid: 73115f095d6e2024e9c953b057904398, type: 2}
-  populationSize: 4
-  elapsed: 0
-  trialTime: 10
+  populationSize: 20
+  trialTime: 2
 --- !u!1 &330727200
 GameObject:
   m_ObjectHideFlags: 0

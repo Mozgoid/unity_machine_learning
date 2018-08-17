@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class PopulationManager : MonoBehaviour
+public class MazePopulation : MonoBehaviour
 {
     public GameObject botPrefab;
     public int populationSize = 20;
@@ -31,18 +31,7 @@ public class PopulationManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        for (int i = 0; i < populationSize; i++)
-        {
-            var startPos = new Vector3(this.transform.position.x + Random.Range(-2, 2)
-                , this.transform.position.y
-                , this.transform.position.z + Random.Range(-2, 2));
-
-            var newBrain = Instantiate(botPrefab, startPos, botPrefab.transform.rotation).GetComponent<Brain>();
-            newBrain.Init(2);
-            population.Add(newBrain);
-        }
-
-        generation = 1;
+        BreedNewPopulation();
     }
 
     Brain Breed(Brain a, Brain b)
@@ -71,18 +60,20 @@ public class PopulationManager : MonoBehaviour
         elapsed = 0;
         generation++;
 
-        var sortedPopulation = population.OrderByDescending(o => o.distanceAlive).ToList();
-        population.Clear();
-
-        for (int i = 0; i < sortedPopulation.Count / 2; i++)
+        if (population.Count < 2)
         {
-            population.Add(Breed(sortedPopulation[i], sortedPopulation[i + 1]));
-            population.Add(Breed(sortedPopulation[i + 1], sortedPopulation[i]));
+            BreedRandom();
+            return;
         }
 
-        foreach (var brain in sortedPopulation)
+        var sortedPopulation = population.OrderByDescending(o => o.distanceAlive).ToList();
+        population.Add(Breed(sortedPopulation[0], sortedPopulation[1]));
+
+        if (population.Count > populationSize)
         {
-            Destroy(brain.gameObject);
+            var worstBrain = sortedPopulation[sortedPopulation.Count - 1];
+            population.Remove(worstBrain);
+            Destroy(worstBrain.gameObject);
         }
     }
 
@@ -94,5 +85,14 @@ public class PopulationManager : MonoBehaviour
         {
             BreedNewPopulation();
         }
+    }
+
+    void BreedRandom()
+    {
+        var startPos = this.transform.position;
+
+        var newBrain = Instantiate(botPrefab, startPos, botPrefab.transform.rotation).GetComponent<Brain>();
+        newBrain.Init(2);
+        population.Add(newBrain);
     }
 }

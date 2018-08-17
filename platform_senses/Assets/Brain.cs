@@ -14,7 +14,6 @@ public class Brain : MonoBehaviour
 
     public float moveSpeed = 2;
     public float turnSpeed = 2;
-    public float timeAlive { get; private set; }
     public float distanceAlive { get; private set; }
     public DNA dna;
     public GameObject eyes;
@@ -42,12 +41,10 @@ public class Brain : MonoBehaviour
         }
     }
     
-    public void Init(int dnaLength, PopulationManager manager)
+    public void Init(int dnaLength)
     {
-        populationManager = manager;
         dna = new DNA(dnaLength, Enum.GetValues(typeof(Movement)).Length);
         alive = true;
-        timeAlive = 0;
 
         //ethan = Instantiate(ethanPrefab, transform.position, transform.rotation);
         //ethan.GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().target = this.transform;
@@ -73,8 +70,6 @@ public class Brain : MonoBehaviour
         }
 
         Debug.DrawRay(eyes.transform.position, eyes.transform.forward * 10, seeGround ? Color.green : Color.red);
-
-        timeAlive = populationManager.elapsed;
 
         var gene = (Movement)dna.genes[seeGround ? 0 : 1];
         float h = 0;
