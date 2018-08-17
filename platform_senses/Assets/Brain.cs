@@ -15,13 +15,14 @@ public class Brain : MonoBehaviour
     public float moveSpeed = 2;
     public float turnSpeed = 2;
     public float distanceAlive { get; private set; }
+    public float maxDistanceFromStart { get; private set; }
     public DNA dna;
     public GameObject eyes;
 
     public GameObject ethanPrefab;
     GameObject ethan;
 
-    Vector3 move;
+    Vector3 startPos;
     bool alive = true;
     PopulationManager populationManager;
     bool seeGround = false;
@@ -45,7 +46,7 @@ public class Brain : MonoBehaviour
     {
         dna = new DNA(dnaLength, Enum.GetValues(typeof(Movement)).Length);
         alive = true;
-
+        startPos = transform.position;
         //ethan = Instantiate(ethanPrefab, transform.position, transform.rotation);
         //ethan.GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>().target = this.transform;
     }
@@ -95,6 +96,8 @@ public class Brain : MonoBehaviour
 
         transform.Translate(0, 0, moveDistance);
         transform.Rotate(0, h * Time.deltaTime * turnSpeed, 0);
+
+        maxDistanceFromStart = Math.Max(maxDistanceFromStart, Vector3.Distance(startPos, transform.position));
 
     }
 }

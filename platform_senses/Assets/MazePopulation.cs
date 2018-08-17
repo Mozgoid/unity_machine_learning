@@ -66,7 +66,7 @@ public class MazePopulation : MonoBehaviour
             return;
         }
 
-        var sortedPopulation = population.OrderByDescending(o => o.distanceAlive).ToList();
+        var sortedPopulation = population.OrderByDescending(o => o.maxDistanceFromStart).ToList();
         population.Add(Breed(sortedPopulation[0], sortedPopulation[1]));
 
         if (population.Count > populationSize)
