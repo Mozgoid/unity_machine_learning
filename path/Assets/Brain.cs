@@ -15,6 +15,7 @@ public class Brain : MonoBehaviour
         crouch
     }
  
+    // test comment on github.dev
     public float timeAlive;
     public float distanceAlive;
     public DNA dna;
